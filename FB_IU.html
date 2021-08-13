@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>mhs-tool </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="mhs-Tool comment like automatic">
+<meta name="keywords" content="HTML, CSS, JavaScript">
+<meta name="author" content="trung.nm">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<link href="build/toastr.css" rel="stylesheet" />
+<script src="build/toastr.min.js"></script>
+
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+          aria-controls="nav-home" aria-selected="true">CMT Bạn</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+          aria-controls="nav-profile" aria-selected="false">CMT Nhóm</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+          aria-controls="nav-contact" aria-selected="false">Đăng video</a>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+      </br>
+        <h3>HOME</h3> </br>
+        <form action="" class="was-validated" id='getFriendsFbForm' method='GET'>
+          <div class='row'>
+            <div class="form-group col-sm-8">
+              <a  href='https://m.facebook.com/composer/ocelot/async_loader/?publisher=feed' target="_blank"> Get
+                token</a>
+              <label for="uname">Access Token:</label>
+              <input type="text" class="form-control" id="access_token" name="access_token" placeholder="Access_token"
+                required>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label for="pwd"> Thời gian (Phút):</label>
+              <input type="number" class="form-control" id='interval' name="interval" value="2" required>
+            </div>
+          </div>
+
+          <div class='row'>
+            <div class="form-group col-sm-8">
+              <label for="comment">Link DS bạn</label>
+              <input class="form-control" rows="5" id='linkNextPage' name="linkNextPage"
+                placeholder="Link of list friend" />
+              </label>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label for="pwd"> ID</label>
+              <a href='https://www.facebook.com/profile.php' target="_blank"> Tài khoản</a>
+              <input type="text" class="form-control" id='acountID' name="acountID" value="100064895081160" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id='message' value="Tương tác nhé" name="message" required
+              placeholder="Comment"></textarea>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-success">Comment</button>
+        </form>
+      </div>
+
+
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        </br>
+        <div class="row">
+          <div class="col-sm-9">
+            <h3>HOME</h3>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-success">
+              Đã Comment <span id="notifiCmt" class="badge badge-light">0</span>
+              <span class="sr-only">unread messages</span>
+            </button>
+          </div>
+        </div>
+        </br>
+        <form action="" class="was-validated" id='cmtPostGroup' method='GET'>
+          <div class='row'>
+            <div class="form-group col-sm-7">
+              <a href='https://m.facebook.com/composer/ocelot/async_loader/?publisher=feed' target="_blank"> Get
+                token</a>
+              <label for="uname">Access Token:</label>
+              <input type="text" class="form-control" id="access_token1" name="access_token1" placeholder="Access_token"
+                required>
+            </div>
+
+            <div class="form-group col-sm-2">
+              <label for="pwd">TG (Phút):</label>
+              <input type="number" class="form-control" id='intervalPost' name="intervalPost" value="2" required>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label for="pwd">Nhóm:</label>
+              <input type="text" class="form-control" id='groupId' name="groupId" value="689648961084200" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comment">ID bài viết:</label>
+            <textarea class="form-control" rows="5" id='postId' value="" name="postId" required
+              placeholder="Post Id"></textarea>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id='messagePost' name="messagePost" required
+              placeholder="Comment"></textarea>
+            </label>
+          </div>
+          <div class="row">
+            <div class="form-group col">
+              <button type="submit" class="btn btn-success">Comment</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+    </div>
+  </div>
+
+  <script>
+    $('#getFriendsFbForm').submit(function (e) {
+
+      var nextlink = $('#linkNextPage').val();
+      var acountID = $('#acountID').val();
+      e.preventDefault();
+      showToastrInfo('Chào mừng Hiền bấy bi đến với tool auto TT ^^')
+      if (nextlink != '') {
+        console.log('tiếp tục');
+        showToastrWarning('Tiếp tục theo link');
+        getNextpage(nextlink);
+      } else {
+        console.log('Từ đầu');
+        showToastrWarning('Chạy từ đầu');
+        $.ajax({
+          url: 'https://graph.facebook.com/v11.0/' + acountID + '/friends',
+          type: 'get',
+          data: $('#getFriendsFbForm').serialize(),
+          success: function (data) {
+
+            createListFriendUrl(data.data, data.paging.next);
+          },
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            console.log(err.Message);
+          }
+        });
+      }
+    });
+
+
+    // read list friend and create friends link
+    function createListFriendUrl(data, nextPageUrl) {
+
+      var interval = $('#interval').val();
+      var i = 0;
+      var urlFriends;
+
+      console.log(data);
+      console.log('--------------------------------');
+
+      let myInterval = setInterval(function () {
+
+        urlFriends = 'https://graph.facebook.com/' + data[i].id + '/feed';
+
+        console.log(i + "_" + data[i].id + "_" + data[i].name + ": " + urlFriends);
+
+        // create url to get first status of friend
+        createcommentInteractiveURL(urlFriends);
+
+        i++;
+
+        console.log(i)
+
+        if (i >= 25) {
+          console.log("clear done");
+
+          clearInterval(myInterval)
+
+          console.log('--------------------------------');
+          console.log('da het ds ban qua trang moi nhe');
+
+          getNextpage(nextPageUrl);
+        }
+
+      }, interval * 60000);
+    }
+
+    // get next page
+    function getNextpage(url) {
+      $.ajax({
+        url: url,
+        type: 'get',
+        success: function (data) {
+          console.log(data.paging.next)
+          if (data.paging.next != null) {
+            // crate url to list fiends in next paage
+            // param listFiends & linkNextPage
+            createListFriendUrl(data.data, data.paging.next);
+          } else {
+            console.log('Dont have friends of list')
+          }
+        }
+      });
+    }
+
+
+    // get next page
+    function getMyPostInGroup(url) {
+      var token = $('#access_token').val();
+
+      $.ajax({
+        url: url + "?access_token=" + token,
+        type: 'get',
+        success: function (data) {
+          console.log(data.data)
+        }
+      });
+    }
+
+
+    // get post from friends
+    function createcommentInteractiveURL(url) {
+      $.ajax({
+        url: url,
+        type: 'get',
+        data: $('#getFriendsFbForm').serialize(),
+        success: function (data) {
+          const listPostOfFiends = data.data;
+
+          var firstPost = listPostOfFiends[0].id;
+          console.log(firstPost);
+          var postIs = firstPost.substr(16, 16);
+          var urlPost = 'https://graph.facebook.com/' + postIs + '/comments';
+          var urlPostLike = 'https://graph.facebook.com/' + postIs + '/likes';
+
+          console.log(urlPost);
+          console.log(urlPostLike);
+
+          //TODO
+          commentInteractiveFirstStatus(urlPost);
+          likeInteractiveFirstStatus(urlPostLike);
+        },
+        error: function (xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err.Message);
+        }
+      });
+    }
+
+    // comment to first status
+    function commentInteractiveFirstStatus(url) {
+      var message = $('#message').val();
+      var token = $('#access_token').val();
+
+      const stringArray = message.split(';');
+
+      var messageCmt = stringArray[Math.floor(Math.random() * stringArray.length)];
+
+      console.log('comment: ' + messageCmt);
+
+      $.ajax({
+        url: url,
+        type: 'post',
+        data: $("<form/>", {
+          action: '',
+          method: 'post'
+        }).append($("<input/>", {
+          type: "hidden",
+          name: "access_token",
+          value: token
+        }))
+          .append($("<input/>", {
+            type: "hidden",
+            name: "message",
+            value: messageCmt
+          })).appendTo(document.body).serialize(),
+        success: function (data) {
+          console.log("Comment success");
+          showToastrSuccess("Comment thành công.");
+        },
+        error: function (xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err.Message);
+        }
+      });
+    };
+
+    // comment to first status
+    function likeInteractiveFirstStatus(url) {
+      var token = $('#access_token').val();
+      $.ajax({
+        url: url,
+        type: 'post',
+        data: $("<form/>", {
+          action: '',
+          method: 'post'
+        }).append($("<input/>", {
+          type: "hidden",
+          name: "access_token",
+          value: token
+        })).appendTo(document.body).serialize(),
+        success: function (data) {
+          console.log("like success");
+          showToastrSuccess("Like thành công.");
+        },
+        error: function (xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err.Message);
+        }
+      });
+    };
+
+    function showToastrSuccess(ms) {
+      toastr.success(ms, 'mhs-tool');
+
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+    }
+
+    function showToastrWarning(ms) {
+
+      toastr.warning('Bắt đầu chạy', 'Warning');
+
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+    }
+
+
+    function showToastrInfo(ms) {
+
+      toastr.info('Bắt đầu chạy');
+
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+    }
+
+    // comment bài viết trong nhóm
+
+    $('#cmtPostGroup').submit(function (e) {
+      e.preventDefault();
+      showToastrInfo('Chào mừng Hiền bấy bi đến với tool auto TT ^^');
+      var intervalPost = $('#intervalPost').val();
+      var messagePost = $('#messagePost').val();
+      var postId = $('#postId').val();
+      var groupId = $('#groupId').val();
+
+
+      const stringArray = messagePost.split(';');
+
+      var messageCmt = stringArray[Math.floor(Math.random() * stringArray.length)];
+
+      const stringPostIdList = postId.split(';');
+
+      var i = 0;
+      var j = 0;
+
+      setInterval(() => {
+        if (stringPostIdList.length > i) {
+
+          var urlPost = 'https://graph.facebook.com/' + stringPostIdList[i] + '/comments';
+          var urlPostLike = 'https://graph.facebook.com/' + groupId + "_" + stringPostIdList[i] + '/likes';
+
+          commentInteractiveFirstStatusGroup(urlPost);
+          likeInteractiveFirstStatusPost(urlPostLike);
+
+          console.log(urlPost)
+          console.log(urlPostLike)
+
+          i++;
+          j++;
+
+          $("#notifiCmt").html(j);
+
+        } else {
+          i = 0;
+          console.log('Reset i');
+        }
+      }, intervalPost * 60000);
+    });
+
+    // comment to first status
+    function commentInteractiveFirstStatusGroup(url) {
+      var message = $('#messagePost').val();
+      var token = $('#access_token1').val();
+
+      const stringArray = message.split(';');
+
+      var messageCmt = stringArray[Math.floor(Math.random() * stringArray.length)];
+
+      console.log('comment: ' + messageCmt);
+
+      $.ajax({
+        url: url,
+        type: 'post',
+        data: $("<form/>", {
+          action: '',
+          method: 'post'
+        }).append($("<input/>", {
+          type: "hidden",
+          name: "access_token",
+          value: token
+        }))
+          .append($("<input/>", {
+            type: "hidden",
+            name: "message",
+            value: messageCmt
+          })).appendTo(document.body).serialize(),
+        success: function (data) {
+          console.log("Comment success");
+          showToastrSuccess("Comment thành công.");
+        },
+        error: function (xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err.Message);
+        }
+      });
+    };
+
+    // comment to first status
+    function likeInteractiveFirstStatusPost(url) {
+      var token = $('#access_token1').val();
+      $.ajax({
+        url: url,
+        type: 'post',
+        data: $("<form/>", {
+          action: '',
+          method: 'post'
+        }).append($("<input/>", {
+          type: "hidden",
+          name: "access_token",
+          value: token
+        })).appendTo(document.body).serialize(),
+        success: function (data) {
+          console.log("like success");
+          showToastrSuccess("Like thành công.");
+        },
+        error: function (xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err.Message);
+        }
+      });
+    };
+
+  </script>
+
+  <!-- <input id="btnSubmit" type="submit" value="Release" />
+  <script>
+    $(document).ready(function () {
+      $("#btnSubmit").click(function () {
+        $("<form/>", {
+          action: 'https://graph.facebook.com/3000753263504690/comments',
+          method: 'post'
+        }).append($("<input/>", {
+          type: "hidden",
+          name: "access_token",
+          value: "EAAAAZAw4FxQIBALpPOg7iizTVHdKmq8KofsYEbQNFO6OAXA5h2yPjasTGwZBLHgL8BmfOXJ0enmABgMMvcPaX5jHjFsg8sEZBGZB8XZBr6NrxuCZBHntRI6ubZCod4Udj3Ajxvqf8izvsKU3y3OPteGty0QFjZCrvmOKwLT1ftoliwZDZD"
+        }))
+          .append($("<input/>", {
+            type: "hidden",
+            name: "message",
+            value: "Tương tác <3"
+          }))
+          .appendTo(document.body).submit();
+      });
+    });
+  </script> -->
+</body>
+
+</html>
